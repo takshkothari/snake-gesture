@@ -42,9 +42,6 @@ class Food:
         self.position = self.spawn()
 
     def spawn(self):
-        """Generate food strictly inside grid bounds (with 1 cell padding from edges)."""
-        # Generate within safe boundaries: from 1 to grid_width-3 and 1 to grid_height-3
-        # This ensures food is never on the edge of the playable area
-        x = random.randint(1, max(1, self.grid_width - 3))
-        y = random.randint(1, max(1, self.grid_height - 3))
+        x = random.randint(1, max(1, self.grid_width - 4))
+        y = random.randint(1, max(1, self.grid_height - 5))
         return (x, y)
