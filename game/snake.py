@@ -28,7 +28,7 @@ class Snake:
     def check_collision(self):
         head = self.body[0]
         # Check wall collision
-        if head[0] < 0 or head[0] >= self.grid_width or head[1] < 0 or head[1] >= self.grid_height:
+        if head[0] < 1 or head[0] >= self.grid_width or head[1] < 1 or head[1] >= self.grid_height:
             return True
         # Check self collision
         if head in self.body[1:]:
@@ -42,9 +42,9 @@ class Food:
         self.position = self.spawn()
 
     def spawn(self):
-        # Generate food strictly inside grid bounds (not on edges)
-        # Exclude first and last row/column to keep food away from boundaries
-        return (
-            random.randint(1, self.grid_width - 2),
-            random.randint(1, self.grid_height - 2)
-        )
+        """Generate food strictly inside grid bounds (with 1 cell padding from edges)."""
+        # Generate within safe boundaries: from 1 to grid_width-3 and 1 to grid_height-3
+        # This ensures food is never on the edge of the playable area
+        x = random.randint(1, max(1, self.grid_width - 3))
+        y = random.randint(1, max(1, self.grid_height - 3))
+        return (x, y)

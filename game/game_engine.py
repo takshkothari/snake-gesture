@@ -67,6 +67,18 @@ class GameEngine:
 
     def update(self):
         if not self.game_over:
+            # Check if next move would go out of bounds
+            dx, dy = self.snake.next_direction.value
+            head_x, head_y = self.snake.body[0]
+            next_head = (head_x + dx, head_y + dy)
+            
+            # Game over if moving outside bounds
+            if (next_head[0] < 0 or next_head[0] >= self.grid_width - 1 or
+                next_head[1] < 0 or next_head[1] >= self.grid_height - 4):
+                self.game_over = True
+                return
+            
+            self.snake.next_direction = self.snake.next_direction
             self.snake.move()
             
             # Check food collision
@@ -76,8 +88,8 @@ class GameEngine:
             else:
                 self.snake.body.pop()
             
-            # Check collision
-            if self.snake.check_collision():
+            # Check self-collision
+            if self.snake.body[0] in self.snake.body[1:]:
                 self.game_over = True
 
     def reset_game(self):
